@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 15:27:09 by josemigu          #+#    #+#             */
-/*   Updated: 2025/07/09 18:32:56 by josemigu         ###   ########.fr       */
+/*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
+/*   Updated: 2025/07/09 18:32:23 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+int	ft_strlen(char *str)
 {
-	if (argc < 5 || argc > 6)
-	{
-		ft_putstr("Usage: ./philo number_of_philosophers time_to_die " \
-			"time_to_eat time_to_sleep " \
-			"[number_of_times_each_philosopher_must_eat]\n");
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	int i;
+
+	i = 0;
+	while (str[0])
+		i++;
+	return i;
+}
+
+void	ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
 }
