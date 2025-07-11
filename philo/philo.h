@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/07/09 19:06:18 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:32:50 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 typedef struct s_table
 {
@@ -28,5 +29,6 @@ typedef struct s_table
 
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
+int		ft_atoi(char *str);
 
 #endif
