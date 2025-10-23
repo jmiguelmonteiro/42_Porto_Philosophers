@@ -15,6 +15,7 @@
 void	init_philosophers(t_table *table)
 {
 	int		i;
+	int		right_philo_index;
 
 	table->philosophers = malloc(sizeof(t_philo) * table->nb_philosophers);
 	if (!table->philosophers)
@@ -25,12 +26,21 @@ void	init_philosophers(t_table *table)
 	i = 0;
 	while (i < table->nb_philosophers)
 	{
+		if (i == table->nb_philosophers - 1)
+			right_philo_index = 0;
+		else
+			right_philo_index = i + 1;
 		table->philosophers[i].id = i + 1;
 		table->philosophers[i].last_meal_time = 0;
 		table->philosophers[i].meals_eaten = 0;
+		table->philosophers[i].state = THINKING;
+		table->philosophers[i].right_fork = &table->philosophers[right_philo_index].left_fork;
+		table->philosophers[i].table = table;
+		pthread_mutex_init(&table->philosophers[i].left_fork, NULL);
 		i++;
 	}
 }
+
 void	init_table(t_table *table, int argc, char *argv[])
 {
 	table->nb_philosophers = ft_atoi(argv[1]);
@@ -42,4 +52,5 @@ void	init_table(t_table *table, int argc, char *argv[])
 	else
 		table->meals_required = -1;
 	table->simulation_running = true;
+	pthread_mutex_init(&table->print_mutex, NULL);
 }	

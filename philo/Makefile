@@ -22,7 +22,7 @@ INC			=	-I ./
 
 # Sources
 SRC_PATH	=	./
-SRC			=	philo.c init.c utils.c
+SRC			=	philo.c init.c utils.c simulation.c
 
 # Objects
 OBJ_PATH	= obj/

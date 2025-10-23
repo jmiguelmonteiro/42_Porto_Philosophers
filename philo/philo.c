@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	check_args(int argc, char *argv[])
+static void	check_args(int argc, char *argv[])
 {
 	int	i;
 
@@ -42,6 +42,7 @@ int	main(int argc, char *argv[])
 	check_args(argc, argv);
 	init_table(&table, argc, argv);
 	init_philosophers(&table);
+	start_simulation(&table);
 	free_table(&table);
 	return (EXIT_SUCCESS);
 }
