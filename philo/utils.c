@@ -46,3 +46,9 @@ int	ft_atoi(char *str)
 		value = value * 10 + *str++ - '0';
 	return (signal * value);
 }
+
+void	free_table(t_table *table)
+{
+	if (table->philosophers)
+		free(table->philosophers);
+}

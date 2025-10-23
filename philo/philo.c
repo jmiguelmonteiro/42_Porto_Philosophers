@@ -12,15 +12,36 @@
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+void	check_args(int argc, char *argv[])
 {
-	printf("atoi: %d\n", ft_atoi(argv[1]));
+	int	i;
+
+	i = 1;
 	if (argc < 5 || argc > 6)
 	{
 		ft_putstr("Usage: ./philo number_of_philosophers time_to_die "
 			"time_to_eat time_to_sleep "
 			"[number_of_times_each_philosopher_must_eat]\n");
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
+	while (i < argc)
+	{
+		if (ft_atoi(argv[i]) <= 0)
+		{
+			ft_putstr("Error: All arguments must be positive integers.\n");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+}
+
+int	main(int argc, char *argv[])
+{
+	t_table	table;
+
+	check_args(argc, argv);
+	init_table(&table, argc, argv);
+	init_philosophers(&table);
+	free_table(&table);
 	return (EXIT_SUCCESS);
 }

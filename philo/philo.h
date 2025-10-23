@@ -18,17 +18,34 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct s_table
+typedef struct s_table	t_table;
+typedef pthread_mutex_t	t_mutex;
+
+typedef struct	s_philo {
+	int			id;
+	long		last_meal_time;
+	int			meals_eaten;
+	pthread_t	thread;
+	t_mutex		*fork;
+}	t_philo;
+
+typedef struct	s_table
 {
-	int	number_of_philosophers;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	number_of_times_each_philosopher_must_eat;
+	int		nb_philosophers;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		meals_required;
+	bool	simulation_running;
+	t_philo	*philosophers;
 }	t_table;
+
+void	init_table(t_table *table, int argc, char *argv[]);
+void	init_philosophers(t_table *table);
 
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
 int		ft_atoi(char *str);
+void	free_table(t_table *table);
 
 #endif
