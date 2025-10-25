@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/07/11 18:42:43 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 18:17:19 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,15 @@ int	ft_atoi(char *str)
 
 void	free_table(t_table *table)
 {
-	if (table->philosophers)
-		free(table->philosophers);
+	int	i;
+	
+	i = 0;
+	while (i < table->nb_philos)
+	{
+		pthread_mutex_destroy(&table->philos[i].left_fork);
+		i++;
+	}
+	pthread_mutex_destroy(&table->print_mutex);
+	if (table->philos)
+		free(table->philos);
 }

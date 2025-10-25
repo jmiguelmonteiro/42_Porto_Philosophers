@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:27:09 by josemigu          #+#    #+#             */
-/*   Updated: 2025/07/11 18:42:10 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 18:09:57 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ int	main(int argc, char *argv[])
 	t_table	table;
 
 	check_args(argc, argv);
-	init_table(&table, argc, argv);
-	init_philosophers(&table);
-	start_simulation(&table);
+	init_data(&table, argc, argv);
+	simulation(&table);
 	free_table(&table);
 	return (EXIT_SUCCESS);
 }
