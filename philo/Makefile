@@ -6,7 +6,7 @@
 #    By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/06 15:17:48 by josemigu          #+#    #+#              #
-#    Updated: 2025/10/25 16:52:42 by josemigu         ###   ########.fr        #
+#    Updated: 2025/10/25 21:01:12 by josemigu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ INC			=	-I ./
 
 # Sources
 SRC_PATH	=	./
-SRC			=	philo.c init.c utils.c simulation.c monitor.c
+SRC			=	philo.c init.c utils.c simulation.c monitor.c get_set.c
 
 # Objects
 OBJ_PATH	= obj/

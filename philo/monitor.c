@@ -6,28 +6,11 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:37:49 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 19:23:09 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 22:26:31 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	set_someone_died(t_table *table)
-{
-	pthread_mutex_lock(&table->someone_died_mutex);
-	table->someone_died = true;
-	pthread_mutex_unlock(&table->someone_died_mutex);
-}
-
-long	get_last_meal(t_philo *philo)
-{
-	long	last_meal;
-
-	pthread_mutex_lock(&philo->last_meal_mutex);
-	last_meal = philo->last_meal_ms;
-	pthread_mutex_unlock(&philo->last_meal_mutex);
-	return (last_meal);
-}
 
 void	*monitor_routine(void *arg)
 {
@@ -37,7 +20,7 @@ void	*monitor_routine(void *arg)
 	long	last_meal;
 
 	table = (t_table *)arg;
-	while (table->simulation_running)
+	while (get_simulation_running(table))
 	{
 		i = 0;
 		while (i < table->nb_philos)
@@ -48,6 +31,7 @@ void	*monitor_routine(void *arg)
 			{
 				print_status(&table->philos[i], "died", current_time);
 				set_someone_died(table);
+				set_simulation_running(table, false);
 				return (NULL);
 			}
 			i++;

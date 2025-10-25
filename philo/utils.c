@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 18:17:19 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 22:18:37 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	free_table(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->print_mutex);
+	pthread_mutex_destroy(&table->simulation_mutex);
+	pthread_mutex_destroy(&table->someone_died_mutex);
 	if (table->philos)
 		free(table->philos);
 }

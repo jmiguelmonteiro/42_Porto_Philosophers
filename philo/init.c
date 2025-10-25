@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:01:35 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 19:10:03 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 22:17:07 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static void	init_table(t_table *table, int argc, char *argv[])
 	table->simulation_running = true;
 	table->someone_died = false;
 	if ((pthread_mutex_init(&table->print_mutex, NULL) != 0) ||
-		(pthread_mutex_init(&table->someone_died_mutex, NULL) != 0))
+		(pthread_mutex_init(&table->someone_died_mutex, NULL) != 0) ||
+		(pthread_mutex_init(&table->simulation_mutex, NULL) != 0))
 	{
 		ft_putstr("Error: Table mnutex initialization failed.\n");
 		exit(EXIT_FAILURE);

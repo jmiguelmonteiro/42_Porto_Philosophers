@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 18:35:37 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/25 22:16:25 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct	s_table
 	int			time_to_sleep;
 	int			meals_required;
 	bool		simulation_running;
+	t_mutex		simulation_mutex;
 	bool		someone_died;
 	t_mutex		someone_died_mutex;
 	pthread_t	monitor_thread;
@@ -60,9 +61,16 @@ typedef struct	s_table
 void	init_data(t_table *table, int argc, char *argv[]);
 int		simulation(t_table *table);
 void	*monitor_routine(void *arg);
-long	get_time(void);
 void	msleep(long ms);
 void	print_status(t_philo *philo, char *msg, long timestamp);
+
+long	get_time(void);
+bool	get_simulation_running(t_table *table);
+void	set_simulation_running(t_table *table, bool running);
+bool	get_someone_died(t_table *table);
+void	set_someone_died(t_table *table);
+long	get_last_meal(t_philo *philo);
+void	set_last_meal(t_philo *philo, long timestamp);
 
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
