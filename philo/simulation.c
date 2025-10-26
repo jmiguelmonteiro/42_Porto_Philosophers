@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:34:41 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/26 13:06:29 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,30 @@ int	thinking(t_philo *philo, t_table *table)
 
 void *philosopher_routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg;
-	t_table *table = philo->table;
+	t_philo *philo;
+	t_table *table;
 
-	while (get_simulation_running(table) && !get_someone_died(table))
+	philo = (t_philo *)arg;
+	table = philo->table;
+	if (table->nb_philos == 1)
 	{
-		if (eating(philo, table) == EXIT_FAILURE)
-			break ;
-		if ((table->meals_required != -1) && (philo->meals_eaten >= table->meals_required))
-		{
-			set_simulation_running(table, false);
-			break ;
-		}
-		if (sleeping(philo, table) == EXIT_FAILURE)
-			break ;
-		if (thinking(philo, table) == EXIT_FAILURE)
-			break ;
+		print_status(philo, "has taken a fork", get_time());
+		msleep(table->time_to_die);
 	}
+	else
+		while (get_simulation_running(table) && !get_someone_died(table))
+		{
+			if (eating(philo, table) == EXIT_FAILURE)
+				return (NULL);
+			if ((table->meals_required != -1) && (philo->meals_eaten >= table->meals_required))
+			{
+				return (NULL);
+			}
+			if (sleeping(philo, table) == EXIT_FAILURE)
+				return (NULL);
+			if (thinking(philo, table) == EXIT_FAILURE)
+				return (NULL);
+		}
 	return (NULL);
 }
 

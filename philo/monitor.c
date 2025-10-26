@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:37:49 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:26:31 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/26 13:01:17 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	*monitor_routine(void *arg)
 				print_status(&table->philos[i], "died", current_time);
 				set_someone_died(table);
 				set_simulation_running(table, false);
+				
 				return (NULL);
 			}
 			i++;

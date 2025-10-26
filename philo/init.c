@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:01:35 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:17:07 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/26 08:34:18 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static int	right_philo_index(int i, int nb_philosophers)
 static void	init_philosophers(t_table *table)
 {
 	int		i;
+	long	current_time;
 
+	current_time = get_time();
 	table->philos = malloc(sizeof(t_philo) * table->nb_philos);
 	if (!table->philos)
 	{
@@ -34,7 +36,7 @@ static void	init_philosophers(t_table *table)
 	while (i < table->nb_philos)
 	{
 		table->philos[i].id = i + 1;
-		table->philos[i].last_meal_ms = get_time();
+		table->philos[i].last_meal_ms = current_time;
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].right_fork = &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
 		table->philos[i].table = table;

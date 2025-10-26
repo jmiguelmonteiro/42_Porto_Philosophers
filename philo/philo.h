@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:16:25 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/26 12:27:45 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef enum e_state
 
 typedef struct	s_philo {
 	int			id;
+	pthread_t	thread;
 	long		last_meal_ms;
 	t_mutex		last_meal_mutex;
 	int			meals_eaten;
-	pthread_t	thread;
 	t_mutex		left_fork;
 	t_mutex		*right_fork;
 	t_table		*table;
@@ -60,6 +60,7 @@ typedef struct	s_table
 
 void	init_data(t_table *table, int argc, char *argv[]);
 int		simulation(t_table *table);
+void	*philosopher_routine(void *arg);
 void	*monitor_routine(void *arg);
 void	msleep(long ms);
 void	print_status(t_philo *philo, char *msg, long timestamp);
