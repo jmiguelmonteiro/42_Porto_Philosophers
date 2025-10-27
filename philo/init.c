@@ -35,6 +35,7 @@ static void	init_philosophers(t_table *table)
 	i = 0;
 	while (i < table->nb_philos)
 	{
+		memset(&table->philos[i], 0, sizeof(t_philo));
 		table->philos[i].id = i + 1;
 		table->philos[i].last_meal_ms = current_time;
 		table->philos[i].meals_eaten = 0;
@@ -52,6 +53,7 @@ static void	init_philosophers(t_table *table)
 
 static void	init_table(t_table *table, int argc, char *argv[])
 {
+	memset(table, 0, sizeof(t_table));
 	table->nb_philos = ft_atoi(argv[1]);
 	table->time_to_die = ft_atoi(argv[2]);
 	table->time_to_eat = ft_atoi(argv[3]);
