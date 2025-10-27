@@ -58,7 +58,7 @@ int	eating(t_philo *philo, t_table *table)
 		return (EXIT_FAILURE);
 	lock_forks(philo, table);
 	if (get_someone_died(table))
-		return (unlock_forks(philo), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	timestamp = get_time();
 	print_status(philo, "is eating", timestamp);
 	set_last_meal(philo, timestamp);
@@ -104,6 +104,7 @@ void *philosopher_routine(void *arg)
 				return (NULL);
 			if ((table->meals_required != -1) && (philo->meals_eaten >= table->meals_required))
 			{
+				print_status(philo, "has finished required meals", get_time());
 				return (NULL);
 			}
 			if (sleeping(philo, table) == EXIT_FAILURE)

@@ -12,6 +12,20 @@
 
 #include "philo.h"
 
+bool	all_philos_finished(t_table *table)
+{
+	int i;
+
+	i = 0;
+	while (i < table->nb_philos)
+	{
+		if (table->meals_required == -1 || table->philos[i].meals_eaten < table->meals_required)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
@@ -25,6 +39,11 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < table->nb_philos)
 		{
+			if (table->meals_required != -1 && table->philos[i].meals_eaten >= table->meals_required)
+			{
+				i++;
+				continue ;
+			}
 			current_time = get_time();
 			last_meal = get_last_meal(&table->philos[i]);
 			if (current_time - last_meal > table->time_to_die)
@@ -36,6 +55,11 @@ void	*monitor_routine(void *arg)
 				return (NULL);
 			}
 			i++;
+		}
+		if (all_philos_finished(table))
+		{
+			set_simulation_running(table, false);
+			return (NULL);
 		}
 		usleep(1000);
 	}
