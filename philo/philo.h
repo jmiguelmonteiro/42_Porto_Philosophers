@@ -23,14 +23,6 @@
 typedef struct s_table	t_table;
 typedef pthread_mutex_t	t_mutex;
 
-typedef enum e_state
-{
-	EATING,
-	THINKING,
-	SLEEPING,
-	DEAD
-}	t_state;
-
 typedef struct	s_philo {
 	int			id;
 	pthread_t	thread;
@@ -49,8 +41,6 @@ typedef struct	s_table
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			meals_required;
-	bool		simulation_running;
-	t_mutex		simulation_mutex;
 	bool		someone_died;
 	t_mutex		someone_died_mutex;
 	pthread_t	monitor_thread;

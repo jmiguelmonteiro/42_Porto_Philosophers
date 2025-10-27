@@ -58,7 +58,6 @@ void	free_table(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->print_mutex);
-	pthread_mutex_destroy(&table->simulation_mutex);
 	pthread_mutex_destroy(&table->someone_died_mutex);
 	if (table->philos)
 		free(table->philos);

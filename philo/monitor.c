@@ -34,7 +34,7 @@ void	*monitor_routine(void *arg)
 	long	last_meal;
 
 	table = (t_table *)arg;
-	while (get_simulation_running(table))
+	while (true)
 	{
 		i = 0;
 		while (i < table->nb_philos)
@@ -50,17 +50,12 @@ void	*monitor_routine(void *arg)
 			{
 				print_status(&table->philos[i], "died", current_time);
 				set_someone_died(table);
-				set_simulation_running(table, false);
-				
 				return (NULL);
 			}
 			i++;
 		}
 		if (all_philos_finished(table))
-		{
-			set_simulation_running(table, false);
 			return (NULL);
-		}
 		usleep(1000);
 	}
 	return (NULL);

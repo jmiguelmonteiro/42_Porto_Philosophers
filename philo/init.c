@@ -60,11 +60,9 @@ static void	init_table(t_table *table, int argc, char *argv[])
 		table->meals_required = ft_atoi(argv[5]);
 	else
 		table->meals_required = -1;
-	table->simulation_running = true;
 	table->someone_died = false;
 	if ((pthread_mutex_init(&table->print_mutex, NULL) != 0) ||
-		(pthread_mutex_init(&table->someone_died_mutex, NULL) != 0) ||
-		(pthread_mutex_init(&table->simulation_mutex, NULL) != 0))
+		(pthread_mutex_init(&table->someone_died_mutex, NULL) != 0))
 	{
 		ft_putstr("Error: Table mnutex initialization failed.\n");
 		exit(EXIT_FAILURE);

@@ -19,23 +19,6 @@ long	get_time(void)
     return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-bool	get_simulation_running(t_table *table)
-{
-	bool	simulation_running;
-
-	pthread_mutex_lock(&table->simulation_mutex);
-	simulation_running = table->simulation_running;
-	pthread_mutex_unlock(&table->simulation_mutex);
-	return (simulation_running);
-}
-
-void	set_simulation_running(t_table *table, bool running)
-{
-	pthread_mutex_lock(&table->simulation_mutex);
-	table->simulation_running = running;
-	pthread_mutex_unlock(&table->simulation_mutex);
-}
-
 bool	get_someone_died(t_table *table)
 {
 	bool	someone_died;

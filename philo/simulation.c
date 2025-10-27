@@ -98,15 +98,12 @@ void *philosopher_routine(void *arg)
 		msleep(table->time_to_die);
 	}
 	else
-		while (get_simulation_running(table) && !get_someone_died(table))
+		while (!get_someone_died(table))
 		{
 			if (eating(philo, table) == EXIT_FAILURE)
 				return (NULL);
 			if ((table->meals_required != -1) && (philo->meals_eaten >= table->meals_required))
-			{
-				print_status(philo, "has finished required meals", get_time());
 				return (NULL);
-			}
 			if (sleeping(philo, table) == EXIT_FAILURE)
 				return (NULL);
 			if (thinking(philo, table) == EXIT_FAILURE)
@@ -138,9 +135,5 @@ int simulation(t_table *table)
 	while (i < table->nb_philos)
 		pthread_join(table->philos[i++].thread, NULL);
 	pthread_join(table->monitor_thread, NULL);
-	// i = 0;	
-	// while (i < table->nb_philosophers)
-	// 	pthread_detach(table->philosophers[i++].thread);
-	// pthread_detach(table->monitor_thread);
 	return (EXIT_SUCCESS);
 }
