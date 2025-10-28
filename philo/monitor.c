@@ -14,12 +14,13 @@
 
 bool	all_philos_finished(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < table->nb_philos)
 	{
-		if (table->meals_required == -1 || table->philos[i].meals_eaten < table->meals_required)
+		if (table->meals_required == -1 || table->philos[i].meals_eaten
+			< table->meals_required)
 			return (false);
 		i++;
 	}
@@ -30,7 +31,6 @@ void	*monitor_routine(void *arg)
 {
 	t_table	*table;
 	int		i;
-	long	current_time;
 	long	last_meal;
 
 	table = (t_table *)arg;
@@ -39,20 +39,15 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < table->nb_philos)
 		{
-			if (table->meals_required != -1 && table->philos[i].meals_eaten >= table->meals_required)
+			if (table->meals_required != -1 && table->philos[i].meals_eaten
+				>= table->meals_required)
 			{
 				i++;
 				continue ;
 			}
-			current_time = get_time();
-			last_meal = get_last_meal(&table->philos[i]);
-			if (current_time - last_meal > table->time_to_die)
-			{
-				print_status(&table->philos[i], "died", current_time);
-				set_someone_died(table);
-				return (NULL);
-			}
-			i++;
+			last_meal = get_last_meal(&table->philos[i++]);
+			if (get_time() - last_meal > table->time_to_die)
+				return (set_someone_died(table, &table->philos[i - 1]), NULL);
 		}
 		if (all_philos_finished(table))
 			return (NULL);

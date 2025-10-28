@@ -29,7 +29,7 @@ static void	init_philosophers(t_table *table)
 	table->philos = malloc(sizeof(t_philo) * table->nb_philos);
 	if (!table->philos)
 	{
-		ft_putstr("Error: Memory allocation for philosophers failed.\n");
+		printf("Error: Memory allocation for philosophers failed.\n");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
@@ -39,15 +39,10 @@ static void	init_philosophers(t_table *table)
 		table->philos[i].id = i + 1;
 		table->philos[i].last_meal_ms = current_time;
 		table->philos[i].meals_eaten = 0;
-		table->philos[i].right_fork = &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
+		table->philos[i].right_fork
+			= &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
 		table->philos[i].table = table;
-		if ((pthread_mutex_init(&table->philos[i].left_fork, NULL) != 0) ||
-		   (pthread_mutex_init(&table->philos[i++].last_meal_mutex, NULL) != 0))
-		{
-			ft_putstr("Error: Philosophers mutex initialization failed.\n");
-			free(table->philos);
-			exit(EXIT_FAILURE);
-		}
+		i++;
 	}
 }
 
@@ -63,16 +58,16 @@ static void	init_table(t_table *table, int argc, char *argv[])
 	else
 		table->meals_required = -1;
 	table->someone_died = false;
-	if ((pthread_mutex_init(&table->print_mutex, NULL) != 0) ||
-		(pthread_mutex_init(&table->someone_died_mutex, NULL) != 0))
-	{
-		ft_putstr("Error: Table mnutex initialization failed.\n");
-		exit(EXIT_FAILURE);
-	}
-}	
+}
 
 void	init_data(t_table *table, int argc, char *argv[])
 {
 	init_table(table, argc, argv);
 	init_philosophers(table);
+	if (init_mutexes(table) != EXIT_SUCCESS)
+	{
+		printf("Error: Mutex initialization failed.\n");
+		free_data(table);
+		exit(EXIT_FAILURE);
+	}
 }

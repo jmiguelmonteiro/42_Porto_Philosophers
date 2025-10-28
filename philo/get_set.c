@@ -14,26 +14,29 @@
 
 long	get_time(void)
 {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 bool	get_someone_died(t_table *table)
 {
 	bool	someone_died;
-	
+
 	pthread_mutex_lock(&table->someone_died_mutex);
 	someone_died = table->someone_died;
 	pthread_mutex_unlock(&table->someone_died_mutex);
 	return (someone_died);
 }
 
-void	set_someone_died(t_table *table)
+void	set_someone_died(t_table *table, t_philo *philo)
 {
+	print_status(philo, "died", get_time());
 	pthread_mutex_lock(&table->someone_died_mutex);
 	table->someone_died = true;
 	pthread_mutex_unlock(&table->someone_died_mutex);
+	unlock_all_forks(table);
 }
 
 long	get_last_meal(t_philo *philo)

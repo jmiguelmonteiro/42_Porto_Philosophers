@@ -12,21 +12,6 @@
 
 #include "philo.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-void	ft_putstr(char *str)
-{
-	write(1, str, ft_strlen(str));
-}
-
 int	ft_atoi(char *str)
 {
 	unsigned int	value;
@@ -47,18 +32,36 @@ int	ft_atoi(char *str)
 	return (signal * value);
 }
 
-void	free_table(t_table *table)
+void	free_data(t_table *table)
 {
-	int	i;
-	
-	i = 0;
-	while (i < table->nb_philos)
-	{
-		pthread_mutex_destroy(&table->philos[i].left_fork);
-		i++;
-	}
-	pthread_mutex_destroy(&table->print_mutex);
-	pthread_mutex_destroy(&table->someone_died_mutex);
+	destroy_mutexes(table);
 	if (table->philos)
 		free(table->philos);
+}
+
+void	print_status(t_philo *philo, char *msg, long timestamp)
+{
+	pthread_mutex_lock(&philo->table->print_mutex);
+	printf("%ld %d %s\n", timestamp, philo->id, msg);
+	pthread_mutex_unlock(&philo->table->print_mutex);
+}
+
+void	check_print_status(t_philo *philo, char *msg, long timestamp)
+{
+	if (get_someone_died(philo->table))
+		return ;
+	print_status(philo, msg, timestamp);
+}
+
+void	msleep(long ms, t_table *table)
+{
+	long	start;
+
+	start = get_time();
+	while (get_time() - start < ms)
+	{
+		if (get_someone_died(table))
+			break ;
+		usleep(100);
+	}
 }

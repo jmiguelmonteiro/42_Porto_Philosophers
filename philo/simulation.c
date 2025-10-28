@@ -12,44 +12,6 @@
 
 #include "philo.h"
 
-void msleep(long ms)
-{
-    long start = get_time();
-    while (get_time() - start < ms)
-        usleep(100);
-}
-
-void print_status(t_philo *philo, char *msg, long timestamp)
-{
-	pthread_mutex_lock(&philo->table->print_mutex);
-	printf("%ld %d %s\n", timestamp, philo->id, msg);
-	pthread_mutex_unlock(&philo->table->print_mutex);
-}
-
-void	lock_forks(t_philo *philo, t_table *table)
-{
-	if (philo->id < ((philo->id + 1) % table->nb_philos))
-	{
-		pthread_mutex_lock(&philo->left_fork);
-		print_status(philo, "has taken a fork", get_time());
-		pthread_mutex_lock(philo->right_fork);
-		print_status(philo, "has taken a fork", get_time());
-	}
-	else
-	{
-		pthread_mutex_lock(philo->right_fork);
-		print_status(philo, "has taken a fork", get_time());
-		pthread_mutex_lock(&philo->left_fork);
-		print_status(philo, "has taken a fork", get_time());
-	}
-}
-
-void	unlock_forks(t_philo *philo)
-{
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(&philo->left_fork);
-}
-
 int	eating(t_philo *philo, t_table *table)
 {
 	long	timestamp;
@@ -62,7 +24,7 @@ int	eating(t_philo *philo, t_table *table)
 	timestamp = get_time();
 	print_status(philo, "is eating", timestamp);
 	set_last_meal(philo, timestamp);
-	msleep(table->time_to_eat);
+	msleep(table->time_to_eat, table);
 	unlock_forks(philo);
 	philo->meals_eaten++;
 	return (EXIT_SUCCESS);
@@ -73,7 +35,7 @@ int	sleeping(t_philo *philo, t_table *table)
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
 	print_status(philo, "is sleeping", get_time());
-	msleep(table->time_to_sleep);
+	msleep(table->time_to_sleep, table);
 	return (EXIT_SUCCESS);
 }
 
@@ -85,50 +47,53 @@ int	thinking(t_philo *philo, t_table *table)
 	return (EXIT_SUCCESS);
 }
 
-void *philosopher_routine(void *arg)
+void	*philosopher_routine(void *arg)
 {
-	t_philo *philo;
-	t_table *table;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	table = philo->table;
-	if (table->nb_philos == 1)
+	if (philo->table->nb_philos == 1)
 	{
 		print_status(philo, "has taken a fork", get_time());
-		msleep(table->time_to_die);
+		msleep(philo->table->time_to_die, philo->table);
 	}
 	else
-		while (!get_someone_died(table))
+	{
+		while (!get_someone_died(philo->table))
 		{
-			if (eating(philo, table) == EXIT_FAILURE)
+			if (eating(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
-			if ((table->meals_required != -1) && (philo->meals_eaten >= table->meals_required))
+			if ((philo->table->meals_required != -1)
+				&& (philo->meals_eaten >= philo->table->meals_required))
 				return (NULL);
-			if (sleeping(philo, table) == EXIT_FAILURE)
+			if (sleeping(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
-			if (thinking(philo, table) == EXIT_FAILURE)
+			if (thinking(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
 		}
+	}
 	return (NULL);
 }
 
-int simulation(t_table *table)
+int	simulation(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < table->nb_philos)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, philosopher_routine, &table->philos[i]) != 0)
+		if (pthread_create(&table->philos[i].thread, NULL, philosopher_routine,
+				&table->philos[i]) != 0)
 		{
-			ft_putstr("Error: Failed to create philosopher thread.\n");
+			printf("Error: Failed to create philosopher thread.\n");
 			return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	if (pthread_create(&table->monitor_thread, NULL, monitor_routine, table) != 0)
+	if (pthread_create(&table->monitor_thread, NULL, monitor_routine, table)
+		!= 0)
 	{
-		ft_putstr("Error: Failed to create monitor thread.\n");
+		printf("Error: Failed to create monitor thread.\n");
 		return (EXIT_FAILURE);
 	}
 	i = 0;

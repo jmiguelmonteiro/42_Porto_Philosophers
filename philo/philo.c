@@ -19,7 +19,7 @@ static void	check_args(int argc, char *argv[])
 	i = 1;
 	if (argc < 5 || argc > 6)
 	{
-		ft_putstr("Usage: ./philo number_of_philosophers time_to_die "
+		printf("Usage: ./philo number_of_philosophers time_to_die "
 			"time_to_eat time_to_sleep "
 			"[number_of_times_each_philosopher_must_eat]\n");
 		exit(EXIT_FAILURE);
@@ -28,7 +28,7 @@ static void	check_args(int argc, char *argv[])
 	{
 		if (ft_atoi(argv[i]) <= 0)
 		{
-			ft_putstr("Error: All arguments must be positive integers.\n");
+			printf("Error: All arguments must be positive integers.\n");
 			exit(EXIT_FAILURE);
 		}
 		i++;
@@ -42,6 +42,6 @@ int	main(int argc, char *argv[])
 	check_args(argc, argv);
 	init_data(&table, argc, argv);
 	simulation(&table);
-	free_table(&table);
+	free_data(&table);
 	return (EXIT_SUCCESS);
 }

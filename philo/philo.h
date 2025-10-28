@@ -19,11 +19,13 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <string.h>
 
 typedef struct s_table	t_table;
 typedef pthread_mutex_t	t_mutex;
 
-typedef struct	s_philo {
+typedef struct s_philo
+{
 	int			id;
 	pthread_t	thread;
 	long		last_meal_ms;
@@ -34,7 +36,7 @@ typedef struct	s_philo {
 	t_table		*table;
 }	t_philo;
 
-typedef struct	s_table
+typedef struct s_table
 {
 	int			nb_philos;
 	int			time_to_die;
@@ -52,20 +54,25 @@ void	init_data(t_table *table, int argc, char *argv[]);
 int		simulation(t_table *table);
 void	*philosopher_routine(void *arg);
 void	*monitor_routine(void *arg);
-void	msleep(long ms);
-void	print_status(t_philo *philo, char *msg, long timestamp);
 
 long	get_time(void);
-bool	get_simulation_running(t_table *table);
-void	set_simulation_running(t_table *table, bool running);
 bool	get_someone_died(t_table *table);
-void	set_someone_died(t_table *table);
+void	set_someone_died(t_table *table, t_philo *philo);
 long	get_last_meal(t_philo *philo);
 void	set_last_meal(t_philo *philo, long timestamp);
 
-int		ft_strlen(char *str);
-void	ft_putstr(char *str);
+void	lock_fork(t_philo *philo, t_mutex *fork);
+void	lock_forks(t_philo *philo, t_table *table);
+void	unlock_forks(t_philo *philo);
+void	unlock_all_forks(t_table *table);
+
 int		ft_atoi(char *str);
-void	free_table(t_table *table);
+void	free_data(t_table *table);
+void	print_status(t_philo *philo, char *msg, long timestamp);
+void	check_print_status(t_philo *philo, char *msg, long timestamp);
+void	msleep(long ms, t_table *table);
+
+int		init_mutexes(t_table *table);
+void	destroy_mutexes(t_table *table);
 
 #endif

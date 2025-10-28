@@ -22,7 +22,8 @@ INC			=	-I ./
 
 # Sources
 SRC_PATH	=	./
-SRC			=	philo.c init.c utils.c simulation.c monitor.c get_set.c
+SRC			=	philo.c init.c utils.c simulation.c monitor.c get_set.c \
+				fork_ops.c mutexes.c
 
 # Objects
 OBJ_PATH	= obj/
