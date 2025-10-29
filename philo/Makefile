@@ -6,7 +6,7 @@
 #    By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/06 15:17:48 by josemigu          #+#    #+#              #
-#    Updated: 2025/10/25 21:01:12 by josemigu         ###   ########.fr        #
+#    Updated: 2025/10/29 16:20:18 by josemigu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME		= philo
 # Compiler
 CC				= cc
 CFLAGS			= -Werror -Wextra -Wall -g
+CFLAGS_SANITIZE	= -Wall -Wextra -Werror -g -L. -lpthread -g3 -fsanitize=thread -O3 -march=native
 
 # Includes
 INC			=	-I ./
@@ -23,7 +24,7 @@ INC			=	-I ./
 # Sources
 SRC_PATH	=	./
 SRC			=	philo.c init.c utils.c simulation.c monitor.c get_set.c \
-				fork_ops.c mutexes.c
+				fork_ops.c mutexes.c get_set2.c
 
 # Objects
 OBJ_PATH	= obj/
@@ -52,5 +53,15 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+sanitize: $(OBJS)
+	@echo "Compiling philo with sanitizers..."
+	$(CC) $(CFLAGS_SANITIZE) -o $(NAME) $(OBJS) $(INC)
+	@echo "✅ Philo compiled with sanitize flags!!!"
+
+helgrind: $(OBJS)
+	@echo "Compiling philo with valgrind..."
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(INC)
+	@echo "✅ Philo compiled to run with helgrind!!!"
 
 .PHONY: all re clean fclean

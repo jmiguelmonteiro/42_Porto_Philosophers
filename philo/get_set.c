@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 20:57:53 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:10:36 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 16:20:04 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	set_someone_died(t_table *table, t_philo *philo)
 	pthread_mutex_lock(&table->someone_died_mutex);
 	table->someone_died = true;
 	pthread_mutex_unlock(&table->someone_died_mutex);
-	unlock_all_forks(table);
 }
 
 long	get_last_meal(t_philo *philo)

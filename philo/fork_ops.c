@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks_handle.c                                     :+:      :+:    :+:   */
+/*   fork_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 14:13:52 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/28 14:13:52 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:42:39 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void	lock_fork(t_philo *philo, t_mutex *fork)
 {
-	if (get_someone_died(philo->table))
-		return ;
 	pthread_mutex_lock(fork);
 	check_print_status(philo, "has taken a fork", get_time());
 }
 
 void	lock_forks(t_philo *philo, t_table *table)
 {
-	if (philo->id < ((philo->id + 1) % table->nb_philos))
+	(void)table;
+	if (philo->id % 2 == 0)
 	{
 		lock_fork(philo, &philo->left_fork);
 		lock_fork(philo, philo->right_fork);

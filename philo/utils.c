@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 22:18:37 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 16:16:13 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	msleep(long ms, t_table *table)
 {
 	long	start;
 
+	(void)table;
 	start = get_time();
 	while (get_time() - start < ms)
 	{

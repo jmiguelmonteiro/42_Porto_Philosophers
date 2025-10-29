@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:01:35 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/26 08:34:18 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 15:56:23 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	init_philosophers(t_table *table)
 		table->philos[i].right_fork
 			= &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
 		table->philos[i].table = table;
+		table->philos[i].has_eaten = false;
 		i++;
 	}
 }
@@ -58,6 +59,7 @@ static void	init_table(t_table *table, int argc, char *argv[])
 	else
 		table->meals_required = -1;
 	table->someone_died = false;
+	table->min_last_meal = 0;
 }
 
 void	init_data(t_table *table, int argc, char *argv[])

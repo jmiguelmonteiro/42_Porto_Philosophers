@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/26 13:06:29 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 16:18:32 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ int	eating(t_philo *philo, t_table *table)
 {
 	long	timestamp;
 
+	while ((get_min_last_meal(table) != get_last_meal(philo))
+		&& (get_min_last_meal(table) != 0) && !get_someone_died(table))
+		;
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
 	lock_forks(philo, table);
-	if (get_someone_died(table))
-		return (EXIT_FAILURE);
 	timestamp = get_time();
-	print_status(philo, "is eating", timestamp);
+	if (get_someone_died(table))
+	{
+		unlock_forks(philo);
+		return (EXIT_FAILURE);
+	}
+	check_print_status(philo, "is eating", timestamp);
 	set_last_meal(philo, timestamp);
 	msleep(table->time_to_eat, table);
-	unlock_forks(philo);
 	philo->meals_eaten++;
+	unlock_forks(philo);
 	return (EXIT_SUCCESS);
 }
 
