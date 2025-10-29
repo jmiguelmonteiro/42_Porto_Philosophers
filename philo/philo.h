@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 16:17:07 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:03:23 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ typedef struct s_philo
 	long		last_meal_ms;
 	t_mutex		last_meal_mutex;
 	int			meals_eaten;
+	t_mutex		meals_eaten_mutex;
 	t_mutex		left_fork;
 	t_mutex		*right_fork;
 	t_table		*table;
-	bool		has_eaten;
-	t_mutex		has_eaten_mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -66,6 +65,8 @@ long	get_last_meal(t_philo *philo);
 void	set_last_meal(t_philo *philo, long timestamp);
 long	get_min_last_meal(t_table *table);
 void	set_min_last_meal(t_table *table, long value);
+int		get_meals_eaten(t_philo *philo);
+void	increment_meals_eaten(t_philo *philo);
 
 void	lock_fork(t_philo *philo, t_mutex *fork);
 void	lock_forks(t_philo *philo, t_table *table);

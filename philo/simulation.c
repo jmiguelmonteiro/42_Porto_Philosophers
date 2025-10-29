@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 16:18:32 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:03:39 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	eating(t_philo *philo, t_table *table)
 
 	while ((get_min_last_meal(table) != get_last_meal(philo))
 		&& (get_min_last_meal(table) != 0) && !get_someone_died(table))
-		;
+		usleep(1);
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
 	lock_forks(philo, table);
@@ -31,7 +31,7 @@ int	eating(t_philo *philo, t_table *table)
 	check_print_status(philo, "is eating", timestamp);
 	set_last_meal(philo, timestamp);
 	msleep(table->time_to_eat, table);
-	philo->meals_eaten++;
+	increment_meals_eaten(philo);
 	unlock_forks(philo);
 	return (EXIT_SUCCESS);
 }
@@ -50,6 +50,7 @@ int	thinking(t_philo *philo, t_table *table)
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
 	print_status(philo, "is thinking", get_time());
+	msleep(50, table);
 	return (EXIT_SUCCESS);
 }
 
@@ -76,6 +77,7 @@ void	*philosopher_routine(void *arg)
 				return (NULL);
 			if (thinking(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
+			usleep(1);
 		}
 	}
 	return (NULL);

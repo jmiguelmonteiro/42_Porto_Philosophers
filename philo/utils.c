@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 16:16:13 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 17:31:11 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ void	msleep(long ms, t_table *table)
 	{
 		if (get_someone_died(table))
 			break ;
-		usleep(100);
+		usleep(500);
 	}
 }
