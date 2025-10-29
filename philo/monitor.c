@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:37:49 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 18:11:41 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:23:43 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	monitor_loop(t_table *table, int i, long last_meal,
 		if (all_philos_finished(table))
 			return ;
 		set_min_last_meal(table, min_last_meal);
-		usleep(500);
+		usleep(100);
 	}
 }
 

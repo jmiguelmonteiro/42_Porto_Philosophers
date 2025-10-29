@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 18:03:39 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:24:00 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	thinking(t_philo *philo, t_table *table)
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
 	print_status(philo, "is thinking", get_time());
-	msleep(50, table);
 	return (EXIT_SUCCESS);
 }
 
