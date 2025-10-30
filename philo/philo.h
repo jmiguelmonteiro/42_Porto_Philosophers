@@ -76,7 +76,6 @@ void	unlock_all_forks(t_table *table);
 int		ft_atoi(char *str);
 void	free_data(t_table *table);
 void	print_status(t_philo *philo, char *msg, long timestamp);
-void	check_print_status(t_philo *philo, char *msg, long timestamp);
 void	msleep(long ms, t_table *table);
 
 int		init_mutexes(t_table *table);

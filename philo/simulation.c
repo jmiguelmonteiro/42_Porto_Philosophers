@@ -28,8 +28,8 @@ int	eating(t_philo *philo, t_table *table)
 		unlock_forks(philo);
 		return (EXIT_FAILURE);
 	}
-	check_print_status(philo, "is eating", timestamp);
 	set_last_meal(philo, timestamp);
+	print_status(philo, "is eating", timestamp);
 	msleep(table->time_to_eat, table);
 	increment_meals_eaten(philo);
 	unlock_forks(philo);
