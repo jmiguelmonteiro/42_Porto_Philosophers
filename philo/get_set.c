@@ -32,10 +32,12 @@ bool	get_someone_died(t_table *table)
 
 void	set_someone_died(t_table *table, t_philo *philo)
 {
-	print_status(philo, "died", get_time());
+	pthread_mutex_lock(&philo->table->print_mutex);
 	pthread_mutex_lock(&table->someone_died_mutex);
+	printf("%ld %d %s\n", get_time(), philo->id, "died");
 	table->someone_died = true;
 	pthread_mutex_unlock(&table->someone_died_mutex);
+	pthread_mutex_unlock(&philo->table->print_mutex);
 }
 
 long	get_last_meal(t_philo *philo)

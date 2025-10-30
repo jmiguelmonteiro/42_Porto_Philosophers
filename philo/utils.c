@@ -41,9 +41,12 @@ void	free_data(t_table *table)
 
 void	print_status(t_philo *philo, char *msg, long timestamp)
 {
-	if (get_someone_died(philo->table))
-		return ;
 	pthread_mutex_lock(&philo->table->print_mutex);
+	if (get_someone_died(philo->table))
+	{
+		pthread_mutex_unlock(&philo->table->print_mutex);
+		return ;
+	}
 	printf("%ld %d %s\n", timestamp, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_mutex);
 }
