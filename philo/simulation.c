@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 18:24:00 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:58:56 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	eating(t_philo *philo, t_table *table)
 		return (EXIT_FAILURE);
 	}
 	set_last_meal(philo, timestamp);
+	increment_meals_eaten(philo);
 	print_status(philo, "is eating", timestamp);
 	msleep(table->time_to_eat, table);
-	increment_meals_eaten(philo);
 	unlock_forks(philo);
 	return (EXIT_SUCCESS);
 }
@@ -70,7 +70,7 @@ void	*philosopher_routine(void *arg)
 			if (eating(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
 			if ((philo->table->meals_required != -1)
-				&& (philo->meals_eaten >= philo->table->meals_required))
+				&& (get_meals_eaten(philo) >= philo->table->meals_required))
 				return (NULL);
 			if (sleeping(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);

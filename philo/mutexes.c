@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:40:50 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 18:00:08 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:04:54 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	init_mutexes(t_table *table)
 		if (pthread_mutex_init(&table->philos[i].last_meal_mutex, NULL) != 0)
 			return (EXIT_FAILURE);
 		if (pthread_mutex_init(&table->philos[i].meals_eaten_mutex, NULL) != 0)
+			return (EXIT_FAILURE);
+		if (pthread_mutex_init(&table->philos[i].fork_mutex, NULL) != 0)
 			return (EXIT_FAILURE);
 		i++;
 	}
@@ -46,6 +48,7 @@ void	destroy_mutexes(t_table *table)
 		pthread_mutex_destroy(&table->philos[i].left_fork);
 		pthread_mutex_destroy(&table->philos[i].last_meal_mutex);
 		pthread_mutex_destroy(&table->philos[i].meals_eaten_mutex);
+		pthread_mutex_destroy(&table->philos[i].fork_mutex);
 		i++;
 	}
 	pthread_mutex_destroy(&table->print_mutex);

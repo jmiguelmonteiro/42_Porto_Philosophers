@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 18:03:23 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:01:32 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <string.h>
+# include <limits.h>
 
 typedef struct s_table	t_table;
 typedef pthread_mutex_t	t_mutex;
@@ -35,6 +36,8 @@ typedef struct s_philo
 	t_mutex		left_fork;
 	t_mutex		*right_fork;
 	t_table		*table;
+	int			fork;
+	t_mutex		fork_mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -71,8 +74,8 @@ void	increment_meals_eaten(t_philo *philo);
 void	lock_fork(t_philo *philo, t_mutex *fork);
 void	lock_forks(t_philo *philo, t_table *table);
 void	unlock_forks(t_philo *philo);
-void	unlock_all_forks(t_table *table);
 
+bool	check_arg_is_int(char *nptr);
 int		ft_atoi(char *str);
 void	free_data(t_table *table);
 void	print_status(t_philo *philo, char *msg, long timestamp);

@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:27:09 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/25 18:09:57 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:39:57 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	check_args(int argc, char *argv[])
 	}
 	while (i < argc)
 	{
-		if (ft_atoi(argv[i]) <= 0)
+		if (!check_arg_is_int(argv[i]) || ft_atoi(argv[i]) <= 0)
 		{
 			printf("Invalid input: All arguments must be positive integers.\n");
 			exit(EXIT_FAILURE);

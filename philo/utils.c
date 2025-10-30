@@ -6,11 +6,40 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 17:31:11 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:43:49 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+bool	check_arg_is_int(char *nptr)
+{
+	long	value;
+	int		signal;
+
+	value = 0;
+	signal = 1;
+	while (*nptr == ' ' || (*nptr >= '\t' && *nptr <= '\r'))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			signal = -1;
+		nptr++;
+		if (*nptr < '0' || *nptr > '9')
+			return (false);
+	}
+	while (*nptr)
+	{
+		if (*nptr >= '0' && *nptr <= '9')
+			value = value * 10 + *nptr++ - '0';
+		else
+			return (false);
+		if (((value * signal) > INT_MAX) || ((value * signal) < INT_MIN))
+			return (false);
+	}
+	return (true);
+}
 
 int	ft_atoi(char *str)
 {

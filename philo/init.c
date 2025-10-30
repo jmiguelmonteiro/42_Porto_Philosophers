@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:01:35 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/29 17:59:07 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:02:34 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	init_philosophers(t_table *table)
 		table->philos[i].right_fork
 			= &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
 		table->philos[i].table = table;
+		table->philos[i].fork = -1;
 		i++;
 	}
 }
