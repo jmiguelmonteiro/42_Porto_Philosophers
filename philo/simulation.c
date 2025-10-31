@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/30 19:58:56 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:09:38 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ void	*philosopher_routine(void *arg)
 	{
 		while (!get_someone_died(philo->table))
 		{
+			if (thinking(philo, philo->table) == EXIT_FAILURE)
+				return (NULL);
 			if (eating(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
 			if ((philo->table->meals_required != -1)
 				&& (get_meals_eaten(philo) >= philo->table->meals_required))
 				return (NULL);
 			if (sleeping(philo, philo->table) == EXIT_FAILURE)
-				return (NULL);
-			if (thinking(philo, philo->table) == EXIT_FAILURE)
 				return (NULL);
 			usleep(1);
 		}
