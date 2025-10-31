@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:31:44 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/31 13:09:38 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:50:16 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 int	eating(t_philo *philo, t_table *table)
 {
-	long	timestamp;
-
+	if (philo->id % 2 == 0)
+		usleep(100);
 	while ((get_min_last_meal(table) != get_last_meal(philo))
 		&& (get_min_last_meal(table) != 0) && !get_someone_died(table))
 		usleep(1);
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
-	lock_forks(philo, table);
-	timestamp = get_time();
+	while (!try_lock_forks(philo))
+	{
+		if (get_someone_died(table))
+			return (EXIT_FAILURE);
+		usleep(1);
+	}
 	if (get_someone_died(table))
 	{
 		unlock_forks(philo);
 		return (EXIT_FAILURE);
 	}
-	set_last_meal(philo, timestamp);
 	increment_meals_eaten(philo);
-	print_status(philo, "is eating", timestamp);
+	set_last_meal(philo, get_time());
+	print_status(philo, "is eating");
 	msleep(table->time_to_eat, table);
 	unlock_forks(philo);
 	return (EXIT_SUCCESS);
@@ -40,7 +44,7 @@ int	sleeping(t_philo *philo, t_table *table)
 {
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
-	print_status(philo, "is sleeping", get_time());
+	print_status(philo, "is sleeping");
 	msleep(table->time_to_sleep, table);
 	return (EXIT_SUCCESS);
 }
@@ -49,7 +53,7 @@ int	thinking(t_philo *philo, t_table *table)
 {
 	if (get_someone_died(table))
 		return (EXIT_FAILURE);
-	print_status(philo, "is thinking", get_time());
+	print_status(philo, "is thinking");
 	return (EXIT_SUCCESS);
 }
 
@@ -60,7 +64,7 @@ void	*philosopher_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->table->nb_philos == 1)
 	{
-		print_status(philo, "has taken a fork", get_time());
+		print_status(philo, "has taken a fork");
 		msleep(philo->table->time_to_die, philo->table);
 	}
 	else

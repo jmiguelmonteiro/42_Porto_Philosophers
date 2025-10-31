@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:13:39 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/30 20:01:32 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:48:42 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ typedef struct s_philo
 	t_mutex		last_meal_mutex;
 	int			meals_eaten;
 	t_mutex		meals_eaten_mutex;
-	t_mutex		left_fork;
-	t_mutex		*right_fork;
+	bool		left_fork;
+	t_mutex		l_fork_mutex;
+	bool		*right_fork;
+	t_mutex		*r_fork_mutex;
 	t_table		*table;
-	int			fork;
-	t_mutex		fork_mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -49,11 +49,11 @@ typedef struct s_table
 	int			meals_required;
 	bool		someone_died;
 	t_mutex		someone_died_mutex;
-	pthread_t	monitor_thread;
-	t_philo		*philos;
-	t_mutex		print_mutex;
 	long		min_last_meal;
 	t_mutex		min_last_meal_mutex;
+	t_mutex		print_mutex;
+	pthread_t	monitor_thread;
+	t_philo		*philos;
 }	t_table;
 
 void	init_data(t_table *table, int argc, char *argv[]);
@@ -74,11 +74,12 @@ void	increment_meals_eaten(t_philo *philo);
 void	lock_fork(t_philo *philo, t_mutex *fork);
 void	lock_forks(t_philo *philo, t_table *table);
 void	unlock_forks(t_philo *philo);
+bool	try_lock_forks(t_philo *philo);
 
 bool	check_arg_is_int(char *nptr);
 int		ft_atoi(char *str);
 void	free_data(t_table *table);
-void	print_status(t_philo *philo, char *msg, long timestamp);
+void	print_status(t_philo *philo, char *msg);
 void	msleep(long ms, t_table *table);
 
 int		init_mutexes(t_table *table);

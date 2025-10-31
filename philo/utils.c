@@ -6,7 +6,7 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:29:22 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/30 19:43:49 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:47:50 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	free_data(t_table *table)
 		free(table->philos);
 }
 
-void	print_status(t_philo *philo, char *msg, long timestamp)
+void	print_status(t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&philo->table->print_mutex);
 	if (get_someone_died(philo->table))
@@ -76,7 +76,7 @@ void	print_status(t_philo *philo, char *msg, long timestamp)
 		pthread_mutex_unlock(&philo->table->print_mutex);
 		return ;
 	}
-	printf("%ld %d %s\n", timestamp, philo->id, msg);
+	printf("%ld %d %s\n", get_time(), philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_mutex);
 }
 

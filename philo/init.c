@@ -6,18 +6,15 @@
 /*   By: josemigu <josemigu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:01:35 by josemigu          #+#    #+#             */
-/*   Updated: 2025/10/30 20:02:34 by josemigu         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:50:22 by josemigu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	right_philo_index(int i, int nb_philosophers)
+static int	right_philo_index(t_philo *philo)
 {
-	if (i == nb_philosophers - 1)
-		return (0);
-	else
-		return (i + 1);
+	return ((philo->id) % (philo->table->nb_philos));
 }
 
 static void	init_philosophers(t_table *table)
@@ -39,10 +36,12 @@ static void	init_philosophers(t_table *table)
 		table->philos[i].id = i + 1;
 		table->philos[i].last_meal_ms = current_time;
 		table->philos[i].meals_eaten = 0;
-		table->philos[i].right_fork
-			= &table->philos[right_philo_index(i, table->nb_philos)].left_fork;
 		table->philos[i].table = table;
-		table->philos[i].fork = -1;
+		table->philos[i].left_fork = false;
+		table->philos[i].right_fork
+			= &table->philos[right_philo_index(&table->philos[i])].left_fork;
+		table->philos[i].r_fork_mutex
+			= &table->philos[right_philo_index(&table->philos[i])].l_fork_mutex;
 		i++;
 	}
 }
